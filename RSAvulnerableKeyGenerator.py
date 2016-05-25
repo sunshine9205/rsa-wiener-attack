@@ -35,7 +35,7 @@ RSA-keys are Wiener-vulnerable if d < (n^(1/4))/sqrt(6)
 
 """
 
-import random, MillerRabin, Arithmetic
+import random, math, MillerRabin, Arithmetic
 
 def getPrimePair(bits=512):
     '''
@@ -73,14 +73,15 @@ def generateKeys(nbits=1024):
     good_d = False
     while not good_d:
         d = random.getrandbits(nbits//4)
-        if (Arithmetic.gcd(d,phi) == 1 and 36*pow(d,4) < n):
+        #if (Arithmetic.gcd(d,phi) == 1 and 36*pow(d,4) < n):
+        if (Arithmetic.gcd(d,phi) == 1):
             good_d = True
                     
     e = Arithmetic.modInverse(d,phi)
     return e,n,d
 
 if __name__ == "__main__":
-    print("hey")
+    '''
     for i in range(5):
         e,n,d = generateKeys()
         print ("Clave Publica:")
@@ -92,3 +93,21 @@ if __name__ == "__main__":
         print("d =")
         print(d)
         print("-----------------------")
+    '''   
+    for i in range(10):
+    	e,n,d = generateKeys()
+    	sqrtn = Arithmetic.isqrt(n)
+    	n1 = int(sqrtn*1.5)
+    	n2 = int(sqrtn*2.5)
+    	with open('../data/'+str(i)+'.data','w') as f:
+    		f.write('[\n')
+    		f.write('[1 0 '+str(e)+' '+str(e)+']\n')
+    		f.write('[0 1 '+str(n-random.randrange(n1,n2))+' '+str(n-random.randrange(n1,n2))+']\n')
+    		f.write('[0 0 0 0]\n')
+    		f.write('[0 0 0 0]\n')
+    		f.write(']')
+    	with open('../data/'+str(i)+'.result','w') as f1:
+    		f1.write(str(d))
+    print('end\n') 	
+    	
+    	

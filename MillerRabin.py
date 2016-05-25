@@ -83,7 +83,7 @@ def gen_prime_range(start, stop):
 if __name__ == "__main__":
 	if sys.argv[1] == "test":
 		n = sys.argv[2]
-		print (miller_rabin(n) and "PRIME" or "COMPOSITE")
+		print (miller_rabin(int(n)) and "PRIME" or "COMPOSITE")
 	elif sys.argv[1] == "genprime":
 		nbits = int(sys.argv[2])
 		print(gen_prime(nbits))
